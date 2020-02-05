@@ -18,21 +18,19 @@ class DataForm extends Component<any, IState> {
         this.setState({
             [event.target.name]: event.target.value,
         });
-        console.log(this.state.firstName);
-        console.log(this.state.lastName);
     };
 
     handleSubmit = (event: FormEvent) => {
         event.preventDefault();
         const data = {firstName: this.state.firstName, lastName: this.state.lastName};
-        fetch("api/data", {
+        console.log('Submitting form...');
+        fetch("/api/data", {
             method: 'POST',
             body: JSON.stringify(data),
             headers:{'Content-Type':'application/json'}
         })
-            .then(res => res.json())
-            .then(response => console.log(response));
-        console.log('form submitted');
+            .then(res => res.status)
+            .then(response => console.log("Response from server: " + response));
     };
 
     render() {
