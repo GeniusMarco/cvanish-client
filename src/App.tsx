@@ -4,11 +4,11 @@ import Header from "./components/Header";
 import DataGrid from "./components/DataGrid";
 
 const App = () => {
-  return (
-      <div>
-        <Header />
-        <DataGrid />
-      </div>
+    return (
+        <div id="test">
+            <Header/>
+            <DataGrid/>
+        </div>
   );
 };
 

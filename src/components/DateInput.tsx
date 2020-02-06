@@ -7,15 +7,16 @@ interface IProps {
     onChange: (event: ChangeEvent<HTMLInputElement>) => void
 }
 
-class TextInput extends Component<IProps> {
+class DateInput extends Component<IProps> {
     render() {
         return (
-            <label className="textField">
+            <label className="dateTextField">
                 <div>{this.props.header}</div>
-                <div><input onChange={this.props.onChange} type="text" name={this.props.name} className='inputTextArea'/></div>
+                <div><input onChange={this.props.onChange} type="text" name={this.props.name}
+                            className='inputTextArea' placeholder="MM-RR"/></div>
             </label>
         );
     }
 }
 
-export default TextInput;
+export default DateInput;

@@ -3,6 +3,11 @@
     width: 200px;
 }
 
+.dateTextField {
+    padding: 5px;
+    width: 100px;
+}
+
 .inputTextArea {
     width: 100%;
 }

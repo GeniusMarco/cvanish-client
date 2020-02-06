@@ -25,31 +25,38 @@ class DataForm extends Component<any, IState> {
         });
     };
 
-    handleExperienceChange = (event: ChangeEvent<HTMLInputElement>) => {
-        const id = parseInt(event.target.name.substr(event.target.name.length - 1));
+    handleExperienceChange = (id: number, name: string, value: string) => {
         if (this.state.experience == null || this.state.experience.length < id + 1) {
             let experience: Experience = {
                 city: "",
                 company: "",
                 country: "",
                 role: "",
-                sinceDate: new Date(Date.now()),
-                toDate: new Date(Date.now())
+                sinceDate: new Date(),
+                toDate: new Date()
             };
             this.state.experience.push(experience);
-            // @ts-ignore
         }
         let copy: Experience[] = this.state.experience.slice();
         // @ts-ignore
-        copy[id][event.target.name.substring(0, event.target.name.indexOf('-'))] = event.target.value;
+        copy[id][name] = value;
         this.setState({
             experience: copy
         });
     };
 
+    handleExperienceRemove = (id: number) => {
+        console.log(id);
+        this.removeExperienceInput();
+    };
+
     handleSubmit = (event: FormEvent) => {
         event.preventDefault();
-        const data = {firstName: this.state.firstName, lastName: this.state.lastName, experience: this.state.experience};
+        const data = {
+            firstName: this.state.firstName,
+            lastName: this.state.lastName,
+            experience: this.state.experience
+        };
         console.log('Submitting form, data:\n' + JSON.stringify(data));
         fetch("/api/data", {
             method: 'POST',
@@ -82,10 +89,16 @@ class DataForm extends Component<any, IState> {
         });
     };
 
+    removeExperienceInput = () => {
+        this.setState({
+            experienceCounter: this.state.experienceCounter - 1
+        });
+    };
+
     render() {
         const experienceInputs = [];
         for (let index = 0; index < this.state.experienceCounter; index++) {
-            experienceInputs.push(<ExperienceInput id={index} onChange={this.handleExperienceChange} />)
+            experienceInputs.push(<ExperienceInput id={index} key={index} onChange={this.handleExperienceChange} onRemoveClick={this.handleExperienceRemove} />)
         }
 
         return (
