@@ -1,7 +1,7 @@
 import React from 'react';
 import {Navbar, NavbarBrand} from "react-bootstrap";
 import 'bootswatch/dist/sandstone/bootstrap.min.css';
-import './Header.css'
+import '../App.css'
 
 const Header = () => (
     <Navbar id="navbar" className="justify-content-center" sticky="top" bg="primary" variant="dark">
