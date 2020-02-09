@@ -4,7 +4,8 @@ import DataForm from "./DataForm";
 
 interface IProps {
     experienceCounter: number,
-    removeExperienceInput: () => void
+    removeExperienceInput: () => void,
+    summaryVisible: boolean
 }
 
 class DataGrid extends Component<IProps> {
@@ -15,6 +16,7 @@ class DataGrid extends Component<IProps> {
                     <Col className="centerCol">
                         <DataForm experienceCounter={this.props.experienceCounter}
                                   removeExperienceInput={this.props.removeExperienceInput}
+                                  summaryVisible={this.props.summaryVisible}
                         />
                     </Col>
                 </Row>

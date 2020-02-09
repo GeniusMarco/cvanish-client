@@ -4,13 +4,30 @@ import DataGrid from "./components/DataGrid";
 import Menu from "./components/Menu";
 
 interface IState {
-    experienceCounter: number
+    experienceCounter: number,
+    summaryVisible: boolean
 }
 
 class App extends Component<any, IState> {
     constructor(props: any) {
         super(props);
-        this.state = {experienceCounter: 0}
+        this.state = {experienceCounter: 0, summaryVisible: false}
+    }
+
+    render() {
+        return (
+            <div>
+                <Header/>
+                <div className="dataGrid">
+                    <DataGrid
+                        experienceCounter={this.state.experienceCounter}
+                        removeExperienceInput={this.removeExperienceInput}
+                        summaryVisible={this.state.summaryVisible}
+                    />
+                </div>
+                <Menu addExperienceInput={this.addExperienceInput} toggleSummary={this.toggleSummary}/>
+            </div>
+        );
     }
 
     addExperienceInput = () => {
@@ -25,16 +42,10 @@ class App extends Component<any, IState> {
         });
     };
 
-    render() {
-        return (
-            <div>
-                <Header/>
-                <div className="dataGrid">
-                    <DataGrid experienceCounter={this.state.experienceCounter} removeExperienceInput={this.removeExperienceInput}/>
-                </div>
-                <Menu addExperienceInput={this.addExperienceInput}/>
-            </div>
-        );
+    toggleSummary = () => {
+        this.setState({
+            summaryVisible: !this.state.summaryVisible
+        })
     }
 }
 

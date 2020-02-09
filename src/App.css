@@ -5,3 +5,12 @@
 .dataGrid {
     padding-bottom: 5%;
 }
+
+.toggleButton.active {
+    background-color: black !important;
+    border-color: black !important;
+}
+
+.btn {
+    margin-right: 10px;
+}

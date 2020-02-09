@@ -11,3 +11,8 @@
 .inputTextArea {
     width: 100%;
 }
+
+.textArea {
+    max-width: 70%;
+    color: black !important;
+}

@@ -2,12 +2,13 @@ import React, {ChangeEvent, Component, FormEvent} from 'react';
 import './DataForm.css'
 import TextInput from "./TextInput";
 import FileSaver from "file-saver";
-import ExperienceInput from "./ExperienceInput";
 import Experience from "../model/Experience";
+import ExperienceInput from "./ExperienceInput";
 
 interface IProps {
-    experienceCounter: number;
-    removeExperienceInput: () => void
+    experienceCounter: number,
+    removeExperienceInput: () => void,
+    summaryVisible: boolean
 }
 
 interface IState {
@@ -15,13 +16,15 @@ interface IState {
     lastName: string,
     phone: string,
     email: string,
+    summary: string,
     experiences: Map<number, Experience>
 }
 
 class DataForm extends Component<IProps, IState> {
     constructor(props: IProps) {
         super(props);
-        this.state = {firstName: '', lastName: '', phone: '', email: '', experiences: new Map<number, Experience>()}
+        this.state = {firstName: '', lastName: '', phone: '', email: '', summary: '',
+            experiences: new Map<number, Experience>()}
     }
 
     render() {
@@ -35,13 +38,20 @@ class DataForm extends Component<IProps, IState> {
             <div>
                 <form onSubmit={event => this.handleSubmit(event)}>
                     <div>
-                        <TextInput header={"First name:"} name={"firstName"} onChange={this.handleChange}/>
-                        <TextInput header={"Last name:"} name={"lastName"} onChange={this.handleChange}/>
+                        <TextInput header={"First name"} name={"firstName"} onChange={this.handleInputChange}/>
+                        <TextInput header={"Last name"} name={"lastName"} onChange={this.handleInputChange}/>
                     </div>
                     <div>
-                        <TextInput header={"Phone number:"} name={"phone"} onChange={this.handleChange}/>
-                        <TextInput header={"E-mail address:"} name={"email"} onChange={this.handleChange}/>
+                        <TextInput header={"Phone number"} name={"phone"} onChange={this.handleInputChange}/>
+                        <TextInput header={"E-mail address"} name={"email"} onChange={this.handleInputChange}/>
                     </div>
+                    {this.props.summaryVisible ?
+                        (<div>
+                            <label htmlFor="summaryTextArea">Summary</label>
+                            <textarea name={"summary"} className={"form-control textArea"} id={"summaryTextArea"} rows={6}
+                            onChange={this.handleTextAreaChange}/>
+                        </div>) :
+                        null}
                     {experienceInputs}
                     <input type="submit" value="Submit"/>
                 </form>
@@ -49,10 +59,17 @@ class DataForm extends Component<IProps, IState> {
         );
     }
 
-    handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
         // @ts-ignore
         this.setState({
-            [event.target.name]: event.target.value,
+            [event.target.name]: event.target.value
+        });
+    };
+
+    handleTextAreaChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
+        // @ts-ignore
+        this.setState({
+            [event.target.name]: event.target.value
         });
     };
 
@@ -73,15 +90,13 @@ class DataForm extends Component<IProps, IState> {
         }
         // @ts-ignore
         newExperience[name] = value;
-        let copy: Map<number, Experience> = new Map<number, Experience>(this.state.experiences);
-        copy = copy.set(id, newExperience);
+        let copy: Map<number, Experience> = new Map<number, Experience>(this.state.experiences).set(id, newExperience);
         this.setState({
             experiences: copy
-        }, () => console.log('EXP: ' +this.state.experiences));
+        });
     };
 
-    handleExperienceRemove = (id: number) => {
-        console.log(id);
+    handleExperienceRemove = () => {
         this.props.removeExperienceInput();
     };
 
@@ -97,6 +112,7 @@ class DataForm extends Component<IProps, IState> {
             lastName: this.state.lastName,
             phone: this.state.phone,
             email: this.state.email,
+            summary: this.state.summary,
             experiences: experiencesArray
         };
         console.log('Submitting form, data:\n' + JSON.stringify(data));
