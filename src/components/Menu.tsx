@@ -7,8 +7,10 @@ import Logo from "./Logo";
 interface IProps {
     experiences: Map<number, Experience>,
     summaryVisible: boolean,
+    skillsVisible: boolean,
     setExperiences: (experiences: Map<number, Experience>) => void,
-    setSummaryVisible: (summaryVisible: boolean) => void
+    setSummaryVisible: (summaryVisible: boolean) => void,
+    setSkillsVisible: (skillsVisible: boolean) => void
 }
 
 class Menu extends Component<IProps> {
@@ -28,6 +30,12 @@ class Menu extends Component<IProps> {
                     <Nav.Item>
                         <Button className="menuButton" variant={'secondary'} onClick={this.addExperienceInput}>Add experience</Button>
                     </Nav.Item>
+                    <Nav.Item>
+                        <ToggleButtonGroup type="checkbox">
+                            <ToggleButton className="toggleButton menuButton" variant={'secondary'} value={'skills'}
+                                          onChange={this.toggleSkills}>Skills</ToggleButton>
+                        </ToggleButtonGroup>
+                    </Nav.Item>
                 </div>
             </Nav>
         );
@@ -46,6 +54,10 @@ class Menu extends Component<IProps> {
             }
         }
         this.props.setExperiences(new Map<number, Experience>(this.props.experiences).set(key, new Experience()))
+    };
+
+    toggleSkills = () => {
+        this.props.setSkillsVisible(!this.props.skillsVisible);
     };
 }
 

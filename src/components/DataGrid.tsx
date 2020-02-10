@@ -6,22 +6,24 @@ import Experience from "../model/Experience";
 interface IProps {
     experiences: Map<number, Experience>,
     setExperiences: (experiences: Map<number, Experience>) => void,
-    summaryVisible: boolean
+    summaryVisible: boolean,
+    skillsVisible: boolean,
 }
 
 class DataGrid extends Component<IProps> {
     render() {
         return (
-            <Container className="dataGrid">
+            <div className="dataGrid">
                 <Row>
                     <Col>
                         <DataForm experiences={this.props.experiences}
                                   setExperiences={this.props.setExperiences}
                                   summaryVisible={this.props.summaryVisible}
+                                  skillsVisible={this.props.skillsVisible}
                         />
                     </Col>
                 </Row>
-            </Container>
+            </div>
         );
     }
 }

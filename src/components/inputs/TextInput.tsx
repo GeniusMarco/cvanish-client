@@ -1,23 +1,24 @@
 import React, {ChangeEvent, Component} from 'react';
 import '../DataForm.css'
-import {Form} from 'react-bootstrap';
+import {Col, Form} from 'react-bootstrap';
 
 interface IProps {
     header: string,
     name: string,
     type?: string,
-    placeholder?: string
+    placeholder?: string,
+    mostRight?: boolean
     onChange: (event: ChangeEvent<HTMLInputElement>) => void
 }
 
 class TextInput extends Component<IProps> {
     render() {
         return (
-            <span>
+            <Form.Group as={Col} className={this.props.mostRight === true ? "mostRight" : ""}>
                 <Form.Label>{this.props.header}</Form.Label>
                 <Form.Control name={this.props.name} type={this.props.type} onChange={this.props.onChange}
-                              className={this.props.placeholder == undefined? "textField" : "dateTextField"} placeholder={this.props.placeholder}/>
-            </span>
+                              placeholder={this.props.placeholder}/>
+            </Form.Group>
         );
     }
 }

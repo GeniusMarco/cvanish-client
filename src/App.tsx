@@ -7,28 +7,31 @@ import {Col, Row} from "react-bootstrap";
 
 interface IState {
     experiences: Map<number, Experience>,
-    summaryVisible: boolean
+    summaryVisible: boolean,
+    skillsVisible: boolean
 }
 
 class App extends Component<any, IState> {
     constructor(props: any) {
         super(props);
-        this.state = {experiences: new Map<number, Experience>(), summaryVisible: false}
+        this.state = {experiences: new Map<number, Experience>(), summaryVisible: false, skillsVisible: false}
     }
 
     render() {
         return (
             <div>
                 <Row>
-                    <Col sm={2} md={2} lg={2}>
+                    <Col sm={0} md={0} lg={0}>
                         <Menu experiences={this.state.experiences} setExperiences={this.setExperiences}
-                              summaryVisible={this.state.summaryVisible} setSummaryVisible={this.setSummaryVisible}/>
+                              summaryVisible={this.state.summaryVisible} setSummaryVisible={this.setSummaryVisible}
+                              skillsVisible={this.state.skillsVisible} setSkillsVisible={this.setSkillsVisible}/>
                     </Col>
                     <Col>
                         <DataGrid
                             experiences={this.state.experiences}
                             setExperiences={this.setExperiences}
                             summaryVisible={this.state.summaryVisible}
+                            skillsVisible={this.state.skillsVisible}
                         />
                     </Col>
                 </Row>
@@ -45,6 +48,12 @@ class App extends Component<any, IState> {
     setSummaryVisible = (summaryVisible: boolean) => {
         this.setState({
             summaryVisible: summaryVisible
+        })
+    }
+
+    setSkillsVisible = (skillsVisible: boolean) => {
+        this.setState({
+            skillsVisible: skillsVisible
         })
     }
 }
