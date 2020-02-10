@@ -1,26 +1,52 @@
 import React, {Component} from 'react';
-import {Button, ButtonToolbar, Navbar, ToggleButton, ToggleButtonGroup} from "react-bootstrap";
-import '../App.css'
+import {Button, Nav, ToggleButton, ToggleButtonGroup} from "react-bootstrap";
+import './Menu.css'
+import Experience from "../model/Experience";
+import Logo from "./Logo";
 
 interface IProps {
-    addExperienceInput: () => void,
-    toggleSummary: () => void
+    experiences: Map<number, Experience>,
+    summaryVisible: boolean,
+    setExperiences: (experiences: Map<number, Experience>) => void,
+    setSummaryVisible: (summaryVisible: boolean) => void
 }
 
 class Menu extends Component<IProps> {
     render() {
         return (
-            <Navbar fixed="bottom" bg="primary" variant="dark">
-                <ButtonToolbar>
-                    <Button variant={'secondary'} onClick={this.props.addExperienceInput}>Add experience</Button>
-                    <ToggleButtonGroup type="checkbox">
-                        <ToggleButton className={'toggleButton'} variant={'secondary'} value={'summary'}
-                                      onChange={this.props.toggleSummary}>Summary</ToggleButton>
-                    </ToggleButtonGroup>
-                </ButtonToolbar>
-            </Navbar>
+            <Nav className="sidebar">
+                <div className="sidebar-sticky">
+                    <Nav.Item>
+                        <Logo/>
+                    </Nav.Item>
+                    <Nav.Item>
+                        <ToggleButtonGroup type="checkbox">
+                            <ToggleButton className="toggleButton menuButton" variant={'secondary'} value={'summary'}
+                                          onChange={this.toggleSummary}>Summary</ToggleButton>
+                        </ToggleButtonGroup>
+                    </Nav.Item>
+                    <Nav.Item>
+                        <Button className="menuButton" variant={'secondary'} onClick={this.addExperienceInput}>Add experience</Button>
+                    </Nav.Item>
+                </div>
+            </Nav>
         );
     }
+
+    toggleSummary = () => {
+        this.props.setSummaryVisible(!this.props.summaryVisible);
+    };
+
+    addExperienceInput = () => {
+        let key: number = this.props.experiences.size;
+        for (let i = 0; i < this.props.experiences.size; i++) {
+            if (!this.props.experiences.has(i)) {
+                key = i;
+                break;
+            }
+        }
+        this.props.setExperiences(new Map<number, Experience>(this.props.experiences).set(key, new Experience()))
+    };
 }
 
 export default Menu;

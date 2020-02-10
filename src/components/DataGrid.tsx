@@ -1,21 +1,22 @@
 import React, {Component} from 'react';
 import {Col, Container, Row} from "react-bootstrap";
 import DataForm from "./DataForm";
+import Experience from "../model/Experience";
 
 interface IProps {
-    experienceCounter: number,
-    removeExperienceInput: () => void,
+    experiences: Map<number, Experience>,
+    setExperiences: (experiences: Map<number, Experience>) => void,
     summaryVisible: boolean
 }
 
 class DataGrid extends Component<IProps> {
     render() {
         return (
-            <Container>
+            <Container className="dataGrid">
                 <Row>
-                    <Col className="centerCol">
-                        <DataForm experienceCounter={this.props.experienceCounter}
-                                  removeExperienceInput={this.props.removeExperienceInput}
+                    <Col>
+                        <DataForm experiences={this.props.experiences}
+                                  setExperiences={this.props.setExperiences}
                                   summaryVisible={this.props.summaryVisible}
                         />
                     </Col>

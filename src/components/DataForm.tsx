@@ -1,13 +1,14 @@
 import React, {ChangeEvent, Component, FormEvent} from 'react';
 import './DataForm.css'
-import TextInput from "./TextInput";
+import TextInput from "./inputs/TextInput";
 import FileSaver from "file-saver";
 import Experience from "../model/Experience";
-import ExperienceInput from "./ExperienceInput";
+import ExperienceInput from "./inputs/ExperienceInput";
+import {Button, Form} from "react-bootstrap";
 
 interface IProps {
-    experienceCounter: number,
-    removeExperienceInput: () => void,
+    experiences: Map<number, Experience>,
+    setExperiences: (experiences: Map<number, Experience>) => void,
     summaryVisible: boolean
 }
 
@@ -17,44 +18,43 @@ interface IState {
     phone: string,
     email: string,
     summary: string,
-    experiences: Map<number, Experience>
 }
 
 class DataForm extends Component<IProps, IState> {
     constructor(props: IProps) {
         super(props);
-        this.state = {firstName: '', lastName: '', phone: '', email: '', summary: '',
-            experiences: new Map<number, Experience>()}
+        this.state = {firstName: '', lastName: '', phone: '', email: '', summary: ''}
     }
 
     render() {
         const experienceInputs = [];
-        for (let index = 0; index < this.props.experienceCounter; index++) {
-            experienceInputs.push(<ExperienceInput id={index} key={index} onChange={this.handleExperienceChange}
-                                                   onRemoveClick={this.handleExperienceRemove}/>)
+        for (const key of Array.from(this.props.experiences.keys())) {
+            experienceInputs.push(<ExperienceInput id={key} key={key} experiences={this.props.experiences}
+                                                   setExperiences={this.props.setExperiences}/>)
         }
 
         return (
             <div>
-                <form onSubmit={event => this.handleSubmit(event)}>
-                    <div>
+                <Form onSubmit={this.handleSubmit}>
+                    <Form.Row>
                         <TextInput header={"First name"} name={"firstName"} onChange={this.handleInputChange}/>
                         <TextInput header={"Last name"} name={"lastName"} onChange={this.handleInputChange}/>
-                    </div>
-                    <div>
+                    </Form.Row>
+                    <Form.Row>
                         <TextInput header={"Phone number"} name={"phone"} onChange={this.handleInputChange}/>
                         <TextInput header={"E-mail address"} name={"email"} onChange={this.handleInputChange}/>
-                    </div>
+                    </Form.Row>
                     {this.props.summaryVisible ?
-                        (<div>
-                            <label htmlFor="summaryTextArea">Summary</label>
-                            <textarea name={"summary"} className={"form-control textArea"} id={"summaryTextArea"} rows={6}
-                            onChange={this.handleTextAreaChange}/>
-                        </div>) :
+                        (<Form.Group>
+                            <Form.Row>
+                                <Form.Label>Summary</Form.Label>
+                                <Form.Control name={"summary"} as={'textarea'} rows={6} onChange={this.handleTextAreaChange}/>
+                            </Form.Row>
+                        </Form.Group>) :
                         null}
                     {experienceInputs}
-                    <input type="submit" value="Submit"/>
-                </form>
+                    <Button className={'submitButton'} type={'submit'} block={true} variant={'secondary'}>Download CV</Button>
+                </Form>
             </div>
         );
     }
@@ -73,38 +73,11 @@ class DataForm extends Component<IProps, IState> {
         });
     };
 
-    handleExperienceChange = (id: number, name: string, value: string) => {
-        let newExperience: Experience;
-        if (!this.state.experiences.has(id)) {
-            newExperience = {
-                city: "",
-                company: "",
-                country: "",
-                role: "",
-                sinceDate: new Date(),
-                toDate: new Date()
-            };
-        } else {
-            // @ts-ignore
-            newExperience = this.state.experiences.get(id);
-        }
-        // @ts-ignore
-        newExperience[name] = value;
-        let copy: Map<number, Experience> = new Map<number, Experience>(this.state.experiences).set(id, newExperience);
-        this.setState({
-            experiences: copy
-        });
-    };
-
-    handleExperienceRemove = () => {
-        this.props.removeExperienceInput();
-    };
-
     handleSubmit = (event: FormEvent) => {
         event.preventDefault();
         let experiencesArray: Experience[] = [];
         // @ts-ignore
-        for (const [, experience] of this.state.experiences.entries()) {
+        for (const [, experience] of this.props.experiences.entries()) {
             experiencesArray.push(experience);
         }
         const data = {

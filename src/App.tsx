@@ -1,50 +1,50 @@
 import React, {Component} from 'react';
-import Header from "./components/Header";
 import DataGrid from "./components/DataGrid";
+import 'bootswatch/dist/sandstone/bootstrap.min.css';
+import Experience from "./model/Experience";
 import Menu from "./components/Menu";
+import {Col, Row} from "react-bootstrap";
 
 interface IState {
-    experienceCounter: number,
+    experiences: Map<number, Experience>,
     summaryVisible: boolean
 }
 
 class App extends Component<any, IState> {
     constructor(props: any) {
         super(props);
-        this.state = {experienceCounter: 0, summaryVisible: false}
+        this.state = {experiences: new Map<number, Experience>(), summaryVisible: false}
     }
 
     render() {
         return (
             <div>
-                <Header/>
-                <div className="dataGrid">
-                    <DataGrid
-                        experienceCounter={this.state.experienceCounter}
-                        removeExperienceInput={this.removeExperienceInput}
-                        summaryVisible={this.state.summaryVisible}
-                    />
-                </div>
-                <Menu addExperienceInput={this.addExperienceInput} toggleSummary={this.toggleSummary}/>
+                <Row>
+                    <Col sm={2} md={2} lg={2}>
+                        <Menu experiences={this.state.experiences} setExperiences={this.setExperiences}
+                              summaryVisible={this.state.summaryVisible} setSummaryVisible={this.setSummaryVisible}/>
+                    </Col>
+                    <Col>
+                        <DataGrid
+                            experiences={this.state.experiences}
+                            setExperiences={this.setExperiences}
+                            summaryVisible={this.state.summaryVisible}
+                        />
+                    </Col>
+                </Row>
             </div>
         );
     }
 
-    addExperienceInput = () => {
+    setExperiences = (experiences: Map<number, Experience>) => {
         this.setState({
-            experienceCounter: this.state.experienceCounter + 1
-        });
+            experiences: experiences
+        })
     };
 
-    removeExperienceInput = () => {
+    setSummaryVisible = (summaryVisible: boolean) => {
         this.setState({
-            experienceCounter: this.state.experienceCounter - 1
-        });
-    };
-
-    toggleSummary = () => {
-        this.setState({
-            summaryVisible: !this.state.summaryVisible
+            summaryVisible: summaryVisible
         })
     }
 }

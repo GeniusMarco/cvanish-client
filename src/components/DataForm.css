@@ -1,18 +1,18 @@
 .textField {
-    padding: 5px;
-    width: 200px;
+    padding: 5px 10px 5px 0;
+    width: 200px !important;
 }
 
 .dateTextField {
-    padding: 5px;
-    width: 100px;
+    padding: 5px 10px 5px 0;
+    width: 100px !important;
 }
 
-.inputTextArea {
-    width: 100%;
+.submitButton {
+    margin-top: 20px;
 }
 
-.textArea {
-    max-width: 70%;
-    color: black !important;
+.removeButton {
+    margin-top: auto;
+    margin-bottom: 18px;
 }

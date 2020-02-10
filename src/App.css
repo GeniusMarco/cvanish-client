@@ -1,16 +1,11 @@
-#navbar {
-    margin-bottom: 20px;
+html {
+    overflow-x: hidden;
+}
+
+#navbarBrand {
+    margin-right: 0 !important;
 }
 
 .dataGrid {
-    padding-bottom: 5%;
-}
-
-.toggleButton.active {
-    background-color: black !important;
-    border-color: black !important;
-}
-
-.btn {
-    margin-right: 10px;
+    padding: 16px 25px 16px 0;
 }
