@@ -7,7 +7,7 @@ import Experience from "../../model/Experience";
 interface IProps {
     id: number,
     experiences: Map<number, Experience>,
-    setExperiences: (newExperiences: Map<number, Experience>) => void,
+    setExperiences: (experiences: Map<number, Experience>) => void,
 }
 
 class ExperienceInput extends Component<IProps> {

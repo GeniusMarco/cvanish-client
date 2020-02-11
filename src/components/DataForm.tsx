@@ -6,10 +6,14 @@ import Experience from "../model/Experience";
 import ExperienceInput from "./inputs/ExperienceInput";
 import {Button, Form} from "react-bootstrap";
 import TextAreaInput from "./inputs/TextAreaInput";
+import Education from "../model/Education";
+import EducationInput from "./inputs/EducationInput";
 
 interface IProps {
     experiences: Map<number, Experience>,
     setExperiences: (experiences: Map<number, Experience>) => void,
+    educations: Map<number, Education>,
+    setEducations: (educations: Map<number, Education>) => void,
     summaryVisible: boolean,
     skillsVisible: boolean
 }
@@ -35,6 +39,11 @@ class DataForm extends Component<IProps, IState> {
             experienceInputs.push(<ExperienceInput id={key} key={key} experiences={this.props.experiences}
                                                    setExperiences={this.props.setExperiences}/>)
         }
+        const educationInputs = [];
+        for (const key of Array.from(this.props.educations.keys())) {
+            educationInputs.push(<EducationInput id={key} key={key} educations={this.props.educations}
+                                                 setEducations={this.props.setEducations}/>)
+        }
 
         return (
             <div>
@@ -51,6 +60,7 @@ class DataForm extends Component<IProps, IState> {
                         <TextAreaInput header={"Summary"} onChange={this.handleTextAreaChange}/> :
                         null}
                     {experienceInputs}
+                    {educationInputs}
                     {this.props.skillsVisible ?
                         <TextAreaInput header={"Skills"} onChange={this.handleTextAreaChange}/> :
                         null}
@@ -81,6 +91,11 @@ class DataForm extends Component<IProps, IState> {
         for (const [, experience] of this.props.experiences.entries()) {
             experiencesArray.push(experience);
         }
+        let educationsArray: Education[] = [];
+        // @ts-ignore
+        for (const [, education] of this.props.educations.entries()) {
+            educationsArray.push(education);
+        }
         const data = {
             firstName: this.state.firstName,
             lastName: this.state.lastName,
@@ -88,6 +103,7 @@ class DataForm extends Component<IProps, IState> {
             email: this.state.email,
             summary: this.state.summary,
             experiences: experiencesArray,
+            educations: educationsArray,
             skills: this.state.skills
         };
         console.log('Submitting form, data:\n' + JSON.stringify(data));
