@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Button, Nav, ToggleButton, ToggleButtonGroup} from "react-bootstrap";
+import {Button, ButtonGroup, Nav, ToggleButton, ToggleButtonGroup} from "react-bootstrap";
 import './Menu.css'
 import Experience from "../model/Experience";
 import Logo from "./Logo";
@@ -24,20 +24,24 @@ class Menu extends Component<IProps> {
                     <Nav.Item>
                         <Logo/>
                     </Nav.Item>
-                    <Nav.Item>
-                        <ToggleButtonGroup type="checkbox">
+                    <Nav.Item className="menuButtonContainer">
+                        <ToggleButtonGroup className="menuButtonGroup" type="checkbox">
                             <ToggleButton className="toggleButton menuButton" variant={'secondary'} value={'summary'}
                                           onChange={this.toggleSummary}>Summary</ToggleButton>
                         </ToggleButtonGroup>
                     </Nav.Item>
-                    <Nav.Item>
-                        <Button className="menuButton" variant={'secondary'} onClick={this.addExperienceInput}>Add experience</Button>
+                    <Nav.Item className="menuButtonContainer">
+                        <ButtonGroup className="menuButtonGroup">
+                            <Button className="menuButton" variant={'secondary'} onClick={this.addExperienceInput}>Add experience</Button>
+                        </ButtonGroup>
                     </Nav.Item>
-                    <Nav.Item>
-                        <Button className="menuButton" variant={'secondary'} onClick={this.addEducationInput}>Add education</Button>
+                    <Nav.Item className="menuButtonContainer">
+                        <ButtonGroup className="menuButtonGroup">
+                            <Button className="menuButton" variant={'secondary'} onClick={this.addEducationInput}>Add education</Button>
+                        </ButtonGroup>
                     </Nav.Item>
-                    <Nav.Item>
-                        <ToggleButtonGroup type="checkbox">
+                    <Nav.Item className="menuButtonContainer">
+                        <ToggleButtonGroup className="menuButtonGroup" type="checkbox">
                             <ToggleButton className="toggleButton menuButton" variant={'secondary'} value={'skills'}
                                           onChange={this.toggleSkills}>Skills</ToggleButton>
                         </ToggleButtonGroup>

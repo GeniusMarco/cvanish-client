@@ -16,6 +16,8 @@ class EducationInput extends Component<IProps> {
             <Form.Row>
                 <TextInput header={"Field of study"} name={"fieldOfStudy"}
                            onChange={(event: ChangeEvent<HTMLInputElement>) => this.handleEducationChange(this.props.id, "fieldOfStudy", event.target.value)}/>
+                <TextInput header={"Level"} name={"level"}
+                           onChange={(event: ChangeEvent<HTMLInputElement>) => this.handleEducationChange(this.props.id, "level", event.target.value)}/>
                 <TextInput header={"University"} name={"university"}
                            onChange={(event: ChangeEvent<HTMLInputElement>) => this.handleEducationChange(this.props.id, "university", event.target.value)}/>
                 <TextInput header={"City"} name={"city"}

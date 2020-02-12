@@ -4,7 +4,7 @@ import TextInput from "./inputs/TextInput";
 import FileSaver from "file-saver";
 import Experience from "../model/Experience";
 import ExperienceInput from "./inputs/ExperienceInput";
-import {Button, Form} from "react-bootstrap";
+import {Button, Card, Form} from "react-bootstrap";
 import TextAreaInput from "./inputs/TextAreaInput";
 import Education from "../model/Education";
 import EducationInput from "./inputs/EducationInput";
@@ -48,21 +48,50 @@ class DataForm extends Component<IProps, IState> {
         return (
             <div>
                 <Form onSubmit={this.handleSubmit}>
-                    <Form.Row>
-                        <TextInput header={"First name"} name={"firstName"} onChange={this.handleInputChange}/>
-                        <TextInput header={"Last name"} name={"lastName"} mostRight={true} onChange={this.handleInputChange}/>
-                    </Form.Row>
-                    <Form.Row>
-                        <TextInput header={"Phone number"} name={"phone"} onChange={this.handleInputChange}/>
-                        <TextInput header={"E-mail address"} name={"email"} mostRight={true} onChange={this.handleInputChange}/>
-                    </Form.Row>
+                    <Card border={"secondary"} className={"section"}>
+                        <Card.Header><h5>Personal information</h5></Card.Header>
+                        <Card.Body>
+                            <Form.Row>
+                                <TextInput header={"First name"} name={"firstName"} onChange={this.handleInputChange}/>
+                                <TextInput header={"Last name"} name={"lastName"} mostRight={true} onChange={this.handleInputChange}/>
+                            </Form.Row>
+                            <Form.Row>
+                                <TextInput header={"Phone number"} name={"phone"} onChange={this.handleInputChange}/>
+                                <TextInput header={"E-mail address"} name={"email"} mostRight={true} onChange={this.handleInputChange}/>
+                            </Form.Row>
+                        </Card.Body>
+                    </Card>
                     {this.props.summaryVisible ?
-                        <TextAreaInput header={"Summary"} onChange={this.handleTextAreaChange}/> :
+                        <Card border={"secondary"} className={"section"}>
+                            <Card.Header><h5>Summary</h5></Card.Header>
+                            <Card.Body>
+                                <TextAreaInput name={"summary"} onChange={this.handleTextAreaChange}/>
+                            </Card.Body>
+                        </Card> :
                         null}
-                    {experienceInputs}
-                    {educationInputs}
+                    {experienceInputs.length == 0 ? null :
+                        <Card border={"secondary"} className={"section"}>
+                            <Card.Header><h5>Experience</h5></Card.Header>
+                            <Card.Body>
+                                {experienceInputs}
+                            </Card.Body>
+                        </Card>
+                    }
+                    {educationInputs.length == 0 ? null :
+                        <Card border={"secondary"} className={"section"}>
+                            <Card.Header><h5>Education</h5></Card.Header>
+                            <Card.Body>
+                                {educationInputs}
+                            </Card.Body>
+                        </Card>
+                    }
                     {this.props.skillsVisible ?
-                        <TextAreaInput header={"Skills"} onChange={this.handleTextAreaChange}/> :
+                        <Card border={"secondary"} className={"section"}>
+                            <Card.Header><h5>Skills</h5></Card.Header>
+                            <Card.Body>
+                                <TextAreaInput name={"skills"} onChange={this.handleTextAreaChange}/>
+                            </Card.Body>
+                        </Card> :
                         null}
                     <Button className={'submitButton'} type={'submit'} block={true} variant={'secondary'}>Download CV</Button>
                 </Form>

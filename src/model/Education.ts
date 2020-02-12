@@ -1,5 +1,6 @@
 class Education {
     fieldOfStudy: string;
+    level: string;
     university: string;
     city: string;
     country: string;
@@ -9,6 +10,7 @@ class Education {
 
     constructor() {
         this.fieldOfStudy = "";
+        this.level = "";
         this.university = "";
         this.city = "";
         this.country = "";

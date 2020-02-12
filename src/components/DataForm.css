@@ -18,3 +18,17 @@
 .textAreaGroup {
     padding-left: 5px;
 }
+
+.card-header {
+    background-color: #8E8C84 !important;
+    border-bottom: none !important;
+    color: white;
+}
+
+.section {
+    margin-bottom: 20px;
+}
+
+.textArea {
+    margin-right: 5px;
+}
