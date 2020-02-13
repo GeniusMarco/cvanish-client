@@ -8,6 +8,7 @@ interface IProps {
     id: number,
     experiences: Map<number, Experience>,
     setExperiences: (experiences: Map<number, Experience>) => void,
+    toggleExperienceVisible: () => void
 }
 
 class ExperienceInput extends Component<IProps> {
@@ -53,6 +54,9 @@ class ExperienceInput extends Component<IProps> {
     removeExperienceInput = (id: number) => {
         let copy = new Map<number, Experience>(this.props.experiences);
         copy.delete(id);
+        if (copy.size === 0) {
+            this.props.toggleExperienceVisible();
+        }
         this.props.setExperiences(copy);
     };
 }

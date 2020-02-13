@@ -8,6 +8,7 @@ interface IProps {
     id: number,
     educations: Map<number, Education>,
     setEducations: (educations: Map<number, Education>) => void,
+    toggleEducationVisible: () => void
 }
 
 class EducationInput extends Component<IProps> {
@@ -55,6 +56,9 @@ class EducationInput extends Component<IProps> {
     removeEducationInput = (id: number) => {
         let copy = new Map<number, Education>(this.props.educations);
         copy.delete(id);
+        if (copy.size === 0) {
+            this.props.toggleEducationVisible();
+        }
         this.props.setEducations(copy);
     };
 }

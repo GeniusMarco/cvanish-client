@@ -7,17 +7,20 @@ interface IProps {
     id: number,
     links: Map<number, string>,
     setLinks: (links: Map<number, string>) => void,
+    toggleLinksVisible: () => void
 }
 
 class LinkInput extends Component<IProps> {
     render() {
         return (
-            <Form.Row>
-                <TextInput header={""} name={"link"}
-                           onChange={(event: ChangeEvent<HTMLInputElement>) => this.handleLinkChange(this.props.id, "link", event.target.value)}/>
-                <Button className={"removeButton"} variant={'danger'} size={'sm'}
-                        onClick={() => this.removeLinkInput(this.props.id)}>Remove</Button>
-            </Form.Row>
+            <div /*className="complexInputContainer"*/>
+                <Form.Row>
+                    <TextInput name={"link"}
+                               onChange={(event: ChangeEvent<HTMLInputElement>) => this.handleLinkChange(this.props.id, "link", event.target.value)}/>
+                    <Button className={"removeButton"} variant={'danger'} size={'sm'}
+                            onClick={() => this.removeLinkInput(this.props.id)}>Remove</Button>
+                </Form.Row>
+            </div>
         );
     }
 
@@ -38,6 +41,9 @@ class LinkInput extends Component<IProps> {
     removeLinkInput = (id: number) => {
         let copy = new Map<number, string>(this.props.links);
         copy.delete(id);
+        if (copy.size === 0) {
+            this.props.toggleLinksVisible();
+        }
         this.props.setLinks(copy);
     };
 }

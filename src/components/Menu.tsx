@@ -1,25 +1,24 @@
 import React, {Component} from 'react';
-import {Button, ButtonGroup, Nav, ToggleButton, ToggleButtonGroup} from "react-bootstrap";
+import {Nav, ToggleButton, ToggleButtonGroup} from "react-bootstrap";
 import './Menu.css'
-import Experience from "../model/Experience";
 import Logo from "./Logo";
-import Education from "../model/Education";
 
 interface IProps {
-    experiences: Map<number, Experience>,
-    educations: Map<number, Education>,
     summaryVisible: boolean,
+    experienceVisible: boolean,
+    educationVisible: boolean,
     skillsVisible: boolean,
-    links: Map<number, string>,
-    setExperiences: (experiences: Map<number, Experience>) => void,
-    setEducations: (educations: Map<number, Education>) => void,
-    setSummaryVisible: (summaryVisible: boolean) => void,
-    setSkillsVisible: (skillsVisible: boolean) => void,
-    setLinks: (links: Map<number, string>) => void
+    linksVisible: boolean,
+    toggleSummaryVisible: () => void,
+    toggleExperienceVisible: () => void,
+    toggleEducationVisible: () => void,
+    toggleSkillsVisible: () => void,
+    toggleLinksVisible: () => void
 }
 
 class Menu extends Component<IProps> {
     render() {
+        console.log("menuExVis " + this.props.experienceVisible);
         return (
             <Nav className="sidebar">
                 <div className="sidebar-sticky">
@@ -28,75 +27,37 @@ class Menu extends Component<IProps> {
                     </Nav.Item>
                     <Nav.Item className="menuButtonContainer">
                         <ToggleButtonGroup className="menuButtonGroup" type="checkbox">
-                            <ToggleButton className="toggleButton menuButton" variant={'secondary'} value={'summary'}
-                                          onChange={this.toggleSummary}>Summary</ToggleButton>
+                            <ToggleButton className={this.props.summaryVisible ? "activeMenuButton" : "menuButton"} variant={'secondary'} value={'summary'}
+                                          onChange={this.props.toggleSummaryVisible}>Summary</ToggleButton>
                         </ToggleButtonGroup>
-                    </Nav.Item>
-                    <Nav.Item className="menuButtonContainer">
-                        <ButtonGroup className="menuButtonGroup">
-                            <Button className="menuButton" variant={'secondary'} onClick={this.addExperienceInput}>Add experience</Button>
-                        </ButtonGroup>
-                    </Nav.Item>
-                    <Nav.Item className="menuButtonContainer">
-                        <ButtonGroup className="menuButtonGroup">
-                            <Button className="menuButton" variant={'secondary'} onClick={this.addEducationInput}>Add education</Button>
-                        </ButtonGroup>
                     </Nav.Item>
                     <Nav.Item className="menuButtonContainer">
                         <ToggleButtonGroup className="menuButtonGroup" type="checkbox">
-                            <ToggleButton className="toggleButton menuButton" variant={'secondary'} value={'skills'}
-                                          onChange={this.toggleSkills}>Skills</ToggleButton>
+                            <ToggleButton className={this.props.experienceVisible ? "activeMenuButton" : "menuButton"} variant={'secondary'} value={'experience'}
+                                          onChange={this.props.toggleExperienceVisible}>Experience</ToggleButton>
                         </ToggleButtonGroup>
                     </Nav.Item>
                     <Nav.Item className="menuButtonContainer">
-                        <ButtonGroup className="menuButtonGroup">
-                            <Button className="menuButton" variant={'secondary'} onClick={this.addLinkInput}>Add link</Button>
-                        </ButtonGroup>
+                        <ToggleButtonGroup className="menuButtonGroup" type="checkbox">
+                            <ToggleButton className={this.props.educationVisible ? "activeMenuButton" : "menuButton"} variant={'secondary'} value={'education'}
+                                          onChange={this.props.toggleEducationVisible}>Education</ToggleButton>
+                        </ToggleButtonGroup>
+                    </Nav.Item>
+                    <Nav.Item className="menuButtonContainer">
+                        <ToggleButtonGroup className="menuButtonGroup" type="checkbox">
+                            <ToggleButton className={this.props.skillsVisible ? "activeMenuButton" : "menuButton"} variant={'secondary'} value={'skills'}
+                                          onChange={this.props.toggleSkillsVisible}>Skills</ToggleButton>
+                        </ToggleButtonGroup>
+                    </Nav.Item>
+                    <Nav.Item className="menuButtonContainer">
+                        <ToggleButtonGroup className="menuButtonGroup" type="checkbox">
+                            <ToggleButton className={this.props.linksVisible ? "activeMenuButton" : "menuButton"} variant={'secondary'} value={'links'}
+                                          onChange={this.props.toggleLinksVisible}>Links</ToggleButton>
+                        </ToggleButtonGroup>
                     </Nav.Item>
                 </div>
             </Nav>
         );
-    }
-
-    toggleSummary = () => {
-        this.props.setSummaryVisible(!this.props.summaryVisible);
-    };
-
-    addExperienceInput = () => {
-        let key: number = this.props.experiences.size;
-        for (let i = 0; i < this.props.experiences.size; i++) {
-            if (!this.props.experiences.has(i)) {
-                key = i;
-                break;
-            }
-        }
-        this.props.setExperiences(new Map<number, Experience>(this.props.experiences).set(key, new Experience()));
-    };
-
-    addEducationInput = () => {
-        let key: number = this.props.educations.size;
-        for (let i = 0; i < this.props.educations.size; i++) {
-            if (!this.props.educations.has(i)) {
-                key = i;
-                break;
-            }
-        }
-        this.props.setEducations(new Map<number, Education>(this.props.educations).set(key, new Education()));
-    };
-
-    toggleSkills = () => {
-        this.props.setSkillsVisible(!this.props.skillsVisible);
-    };
-
-    addLinkInput = () => {
-        let key: number = this.props.links.size;
-        for (let i = 0; i < this.props.links.size; i++) {
-            if (!this.props.links.has(i)) {
-                key = i;
-                break;
-            }
-        }
-        this.props.setLinks(new Map<number, string>(this.props.links).set(key, ""));
     }
 }
 

@@ -1,24 +1,22 @@
 import React, {Component} from 'react';
-import DataGrid from "./components/DataGrid";
 import 'bootswatch/dist/sandstone/bootstrap.min.css';
-import Experience from "./model/Experience";
 import Menu from "./components/Menu";
 import {Col, Row} from "react-bootstrap";
-import Education from "./model/Education";
+import DataForm from "./components/DataForm";
 
 interface IState {
-    experiences: Map<number, Experience>,
-    educations: Map<number, Education>,
     summaryVisible: boolean,
+    experienceVisible: boolean,
+    educationVisible: boolean,
     skillsVisible: boolean,
-    links: Map<number, string>
+    linksVisible: boolean
 }
 
 class App extends Component<any, IState> {
     constructor(props: any) {
         super(props);
-        this.state = {experiences: new Map<number, Experience>(), educations: new Map<number, Education>(),
-            summaryVisible: false, skillsVisible: false, links: new Map<number, string>()}
+        this.state = {summaryVisible: false, experienceVisible: false, educationVisible: false, skillsVisible: false,
+            linksVisible: false}
     }
 
     render() {
@@ -26,22 +24,28 @@ class App extends Component<any, IState> {
             <div>
                 <Row>
                     <Col sm={0} md={0} lg={0}>
-                        <Menu experiences={this.state.experiences} setExperiences={this.setExperiences}
-                              educations={this.state.educations} setEducations={this.setEducations}
-                              summaryVisible={this.state.summaryVisible} setSummaryVisible={this.setSummaryVisible}
-                              skillsVisible={this.state.skillsVisible} setSkillsVisible={this.setSkillsVisible}
-                              links={this.state.links} setLinks={this.setLinks}/>
                     </Col>
+                    <Menu summaryVisible={this.state.summaryVisible}
+                          experienceVisible={this.state.experienceVisible}
+                          educationVisible={this.state.educationVisible}
+                          skillsVisible={this.state.skillsVisible}
+                          linksVisible={this.state.linksVisible}
+                          toggleSummaryVisible={this.toggleSummaryVisible}
+                          toggleExperienceVisible={this.toggleExperienceVisible}
+                          toggleEducationVisible={this.toggleEducationVisible}
+                          toggleSkillsVisible={this.toggleSkillsVisible}
+                          toggleLinksVisible={this.toggleLinksVisible}
+                    />
                     <Col>
-                        <DataGrid
-                            experiences={this.state.experiences}
-                            setExperiences={this.setExperiences}
-                            educations={this.state.educations}
-                            setEducations={this.setEducations}
+                        <DataForm
                             summaryVisible={this.state.summaryVisible}
+                            experienceVisible={this.state.experienceVisible}
+                            toggleExperienceVisible={this.toggleExperienceVisible}
+                            educationVisible={this.state.educationVisible}
+                            toggleEducationVisible={this.toggleEducationVisible}
                             skillsVisible={this.state.skillsVisible}
-                            links={this.state.links}
-                            setLinks={this.setLinks}
+                            linksVisible={this.state.linksVisible}
+                            toggleLinksVisible={this.toggleLinksVisible}
                         />
                     </Col>
                 </Row>
@@ -49,7 +53,37 @@ class App extends Component<any, IState> {
         );
     }
 
-    setExperiences = (experiences: Map<number, Experience>) => {
+    toggleSummaryVisible = () => {
+        this.setState({
+            summaryVisible: !this.state.summaryVisible
+        })
+    };
+
+    toggleExperienceVisible = () => {
+        this.setState({
+            experienceVisible: !this.state.experienceVisible
+        })
+    };
+
+    toggleEducationVisible = () => {
+        this.setState({
+            educationVisible: !this.state.educationVisible
+        })
+    };
+
+    toggleSkillsVisible = () => {
+        this.setState({
+            skillsVisible: !this.state.skillsVisible
+        })
+    };
+
+    toggleLinksVisible = () => {
+        this.setState({
+            linksVisible: !this.state.linksVisible
+        })
+    };
+
+    /*setExperiences = (experiences: Map<number, Experience>) => {
         this.setState({
             experiences: experiences
         })
@@ -61,23 +95,11 @@ class App extends Component<any, IState> {
         })
     };
 
-    setSummaryVisible = (summaryVisible: boolean) => {
-        this.setState({
-            summaryVisible: summaryVisible
-        })
-    };
-
-    setSkillsVisible = (skillsVisible: boolean) => {
-        this.setState({
-            skillsVisible: skillsVisible
-        })
-    };
-
     setLinks = (links: Map<number, string>) => {
         this.setState({
             links: links
         })
-    }
+    }*/
 }
 
 export default App;

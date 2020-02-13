@@ -4,21 +4,21 @@ import TextInput from "./inputs/TextInput";
 import FileSaver from "file-saver";
 import Experience from "../model/Experience";
 import ExperienceInput from "./inputs/ExperienceInput";
-import {Button, Card, Form} from "react-bootstrap";
+import {Button, Card, Form, Spinner} from "react-bootstrap";
 import TextAreaInput from "./inputs/TextAreaInput";
 import Education from "../model/Education";
 import EducationInput from "./inputs/EducationInput";
 import LinkInput from "./inputs/LinkInput";
 
 interface IProps {
-    experiences: Map<number, Experience>,
-    setExperiences: (experiences: Map<number, Experience>) => void,
-    educations: Map<number, Education>,
-    setEducations: (educations: Map<number, Education>) => void,
     summaryVisible: boolean,
+    experienceVisible: boolean,
+    toggleExperienceVisible: () => void,
+    educationVisible: boolean,
+    toggleEducationVisible: () => void,
     skillsVisible: boolean,
-    links: Map<number, string>,
-    setLinks: (links: Map<number, string>) => void
+    linksVisible: boolean,
+    toggleLinksVisible: () => void
 }
 
 interface IState {
@@ -27,33 +27,60 @@ interface IState {
     phone: string,
     email: string,
     summary: string,
-    skills: string
+    experiences: Map<number, Experience>,
+    educations: Map<number, Education>,
+    skills: string,
+    links: Map<number, string>,
+    downloading: boolean
 }
 
 class DataForm extends Component<IProps, IState> {
     constructor(props: IProps) {
         super(props);
-        this.state = {firstName: '', lastName: '', phone: '', email: '', summary: '', skills: ''}
+        this.state = {
+            firstName: '',
+            lastName: '',
+            phone: '',
+            email: '',
+            summary: '',
+            experiences: new Map<number, Experience>(),
+            educations: new Map<number, Education>(),
+            skills: '',
+            links: new Map<number, string>(),
+            downloading: false
+        }
     }
 
     render() {
+        if (this.props.experienceVisible && this.state.experiences.size === 0) {
+            this.addExperienceInput();
+        }
         const experienceInputs = [];
-        for (const key of Array.from(this.props.experiences.keys())) {
-            experienceInputs.push(<ExperienceInput id={key} key={key} experiences={this.props.experiences}
-                                                   setExperiences={this.props.setExperiences}/>)
+        for (const key of Array.from(this.state.experiences.keys())) {
+            experienceInputs.push(<ExperienceInput id={key} key={key} experiences={this.state.experiences}
+                                                   setExperiences={this.setExperiences}
+                                                   toggleExperienceVisible={this.props.toggleExperienceVisible}/>)
+        }
+        if (this.props.educationVisible && this.state.educations.size === 0) {
+            this.addEducationInput();
         }
         const educationInputs = [];
-        for (const key of Array.from(this.props.educations.keys())) {
-            educationInputs.push(<EducationInput id={key} key={key} educations={this.props.educations}
-                                                 setEducations={this.props.setEducations}/>)
+        for (const key of Array.from(this.state.educations.keys())) {
+            educationInputs.push(<EducationInput id={key} key={key} educations={this.state.educations}
+                                                 setEducations={this.setEducations}
+                                                 toggleEducationVisible={this.props.toggleEducationVisible}/>)
+        }
+        if (this.props.linksVisible && this.state.links.size === 0) {
+            this.addLinkInput();
         }
         const linkInputs = [];
-        for (const key of Array.from(this.props.links.keys())) {
-            linkInputs.push(<LinkInput id={key} key={key} links={this.props.links} setLinks={this.props.setLinks}/>)
+        for (const key of Array.from(this.state.links.keys())) {
+            linkInputs.push(<LinkInput id={key} key={key} links={this.state.links} setLinks={this.setLinks}
+                                       toggleLinksVisible={this.props.toggleLinksVisible}/>)
         }
 
         return (
-            <div>
+            <div className="dataGrid">
                 <Form onSubmit={this.handleSubmit}>
                     <Card border={"secondary"} className={"section"}>
                         <Card.Header><h5>Personal information</h5></Card.Header>
@@ -76,21 +103,32 @@ class DataForm extends Component<IProps, IState> {
                             </Card.Body>
                         </Card> :
                         null}
-                    {experienceInputs.length === 0 ? null :
+                    {this.props.experienceVisible ?
                         <Card border={"secondary"} className={"section"}>
-                            <Card.Header><h5>Experience</h5></Card.Header>
+                            <Card.Header>
+                                <h5>
+                                    Experience <Button variant={"success"} size={"sm"}
+                                                       onClick={this.addExperienceInput}>Add</Button>
+                                </h5>
+                            </Card.Header>
                             <Card.Body className="complexInputCardBody">
                                 {experienceInputs}
                             </Card.Body>
-                        </Card>
-                    }
-                    {educationInputs.length === 0 ? null :
+                        </Card> :
+                        null}
+                    {this.props.educationVisible ?
                         <Card border={"secondary"} className={"section"}>
-                            <Card.Header><h5>Education</h5></Card.Header>
+                            <Card.Header>
+                                <h5>
+                                    Education <Button variant={"success"} size={"sm"}
+                                                      onClick={this.addEducationInput}>Add</Button>
+                                </h5>
+                            </Card.Header>
                             <Card.Body className="complexInputCardBody">
                                 {educationInputs}
                             </Card.Body>
-                        </Card>
+                        </Card> :
+                        null
                     }
                     {this.props.skillsVisible ?
                         <Card border={"secondary"} className={"section"}>
@@ -100,19 +138,78 @@ class DataForm extends Component<IProps, IState> {
                             </Card.Body>
                         </Card> :
                         null}
-                    {linkInputs.length === 0 ? null :
+                    {this.props.linksVisible ?
                         <Card border={"secondary"} className={"section"}>
-                            <Card.Header><h5>Links</h5></Card.Header>
+                            <Card.Header>
+                                <h5>
+                                    Links <Button variant={"success"} size={"sm"}
+                                                  onClick={this.addLinkInput}>Add</Button>
+                                </h5>
+                            </Card.Header>
                             <Card.Body>
                                 {linkInputs}
                             </Card.Body>
-                        </Card>
+                        </Card> :
+                        null
                     }
-                    <Button className={'submitButton'} type={'submit'} block={true} variant={'secondary'}>Download CV</Button>
+                    <Button disabled={this.state.downloading} className={'submitButton'} type={'submit'} block={true} variant={'secondary'}>
+                        {this.state.downloading ? <Spinner animation="grow" size="sm"/> : "Download CV"}
+                    </Button>
                 </Form>
             </div>
         );
     }
+
+    addExperienceInput = () => {
+        let key: number = this.state.experiences.size;
+        for (let i = 0; i < this.state.experiences.size; i++) {
+            if (!this.state.experiences.has(i)) {
+                key = i;
+                break;
+            }
+        }
+        this.setExperiences(new Map<number, Experience>(this.state.experiences).set(key, new Experience()));
+    };
+
+    addEducationInput = () => {
+        let key: number = this.state.educations.size;
+        for (let i = 0; i < this.state.educations.size; i++) {
+            if (!this.state.educations.has(i)) {
+                key = i;
+                break;
+            }
+        }
+        this.setEducations(new Map<number, Education>(this.state.educations).set(key, new Education()));
+    };
+
+    addLinkInput = () => {
+        let key: number = this.state.links.size;
+        for (let i = 0; i < this.state.links.size; i++) {
+            if (!this.state.links.has(i)) {
+                key = i;
+                break;
+            }
+        }
+        this.setLinks(new Map<number, string>(this.state.links).set(key, ""));
+    }
+
+    setExperiences = (experiences: Map<number, Experience>) => {
+        this.setState({
+            experiences: experiences
+        })
+    };
+
+    setEducations = (educations: Map<number, Education>) => {
+        this.setState({
+            educations: educations
+        })
+    };
+
+    setLinks = (links: Map<number, string>) => {
+        this.setState({
+            links: links
+        })
+    };
 
     handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
         // @ts-ignore
@@ -129,20 +226,23 @@ class DataForm extends Component<IProps, IState> {
     };
 
     handleSubmit = (event: FormEvent) => {
+        this.setState({
+            downloading: true
+        });
         event.preventDefault();
         let experiencesArray: Experience[] = [];
         // @ts-ignore
-        for (const [, experience] of this.props.experiences.entries()) {
+        for (const [, experience] of this.state.experiences.entries()) {
             experiencesArray.push(experience);
         }
         let educationsArray: Education[] = [];
         // @ts-ignore
-        for (const [, education] of this.props.educations.entries()) {
+        for (const [, education] of this.state.educations.entries()) {
             educationsArray.push(education);
         }
         let linksArray: string[] = [];
         // @ts-ignore
-        for (const [, link] of this.props.links.entries()) {
+        for (const [, link] of this.state.links.entries()) {
             linksArray.push(link);
         }
         const data = {
@@ -164,6 +264,9 @@ class DataForm extends Component<IProps, IState> {
         })
             .then(res => {
                 console.log("Response from server: " + res.status);
+                this.setState({
+                    downloading: false
+                });
                 return res;
             })
             .then(this.handleErrors)

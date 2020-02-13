@@ -3,7 +3,7 @@ import '../DataForm.css'
 import {Col, Form} from 'react-bootstrap';
 
 interface IProps {
-    header: string,
+    header?: string,
     name: string,
     type?: string,
     placeholder?: string,
