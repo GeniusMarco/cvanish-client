@@ -32,3 +32,19 @@
 .textArea {
     margin-right: 5px;
 }
+
+.complexInputContainer {
+    margin-bottom: 30px;
+}
+
+.complexInputCardBody {
+    margin-bottom: -30px;
+}
+
+.textAreaCardBody {
+    margin-bottom: -1rem;
+}
+
+.complexInputFormRow {
+    margin-right: -5px;
+}

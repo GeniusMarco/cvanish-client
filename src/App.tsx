@@ -10,14 +10,15 @@ interface IState {
     experiences: Map<number, Experience>,
     educations: Map<number, Education>,
     summaryVisible: boolean,
-    skillsVisible: boolean
+    skillsVisible: boolean,
+    links: Map<number, string>
 }
 
 class App extends Component<any, IState> {
     constructor(props: any) {
         super(props);
         this.state = {experiences: new Map<number, Experience>(), educations: new Map<number, Education>(),
-            summaryVisible: false, skillsVisible: false}
+            summaryVisible: false, skillsVisible: false, links: new Map<number, string>()}
     }
 
     render() {
@@ -28,7 +29,8 @@ class App extends Component<any, IState> {
                         <Menu experiences={this.state.experiences} setExperiences={this.setExperiences}
                               educations={this.state.educations} setEducations={this.setEducations}
                               summaryVisible={this.state.summaryVisible} setSummaryVisible={this.setSummaryVisible}
-                              skillsVisible={this.state.skillsVisible} setSkillsVisible={this.setSkillsVisible}/>
+                              skillsVisible={this.state.skillsVisible} setSkillsVisible={this.setSkillsVisible}
+                              links={this.state.links} setLinks={this.setLinks}/>
                     </Col>
                     <Col>
                         <DataGrid
@@ -38,6 +40,8 @@ class App extends Component<any, IState> {
                             setEducations={this.setEducations}
                             summaryVisible={this.state.summaryVisible}
                             skillsVisible={this.state.skillsVisible}
+                            links={this.state.links}
+                            setLinks={this.setLinks}
                         />
                     </Col>
                 </Row>
@@ -68,6 +72,12 @@ class App extends Component<any, IState> {
             skillsVisible: skillsVisible
         })
     };
+
+    setLinks = (links: Map<number, string>) => {
+        this.setState({
+            links: links
+        })
+    }
 }
 
 export default App;

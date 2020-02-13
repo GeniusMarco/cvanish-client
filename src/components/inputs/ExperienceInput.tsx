@@ -13,22 +13,26 @@ interface IProps {
 class ExperienceInput extends Component<IProps> {
     render() {
         return (
-            <Form.Row>
-                <TextInput header={"Role"} name={"role"}
-                           onChange={(event: ChangeEvent<HTMLInputElement>) => this.handleExperienceChange(this.props.id, "role", event.target.value)}/>
-                <TextInput header={"Company"} name={"company"}
-                           onChange={(event: ChangeEvent<HTMLInputElement>) => this.handleExperienceChange(this.props.id, "company", event.target.value)}/>
-                <TextInput header={"City"} name={"city"}
-                           onChange={(event: ChangeEvent<HTMLInputElement>) => this.handleExperienceChange(this.props.id, "city", event.target.value)}/>
-                <TextInput header={"Country"} name={"country"}
-                           onChange={(event: ChangeEvent<HTMLInputElement>) => this.handleExperienceChange(this.props.id, "country", event.target.value)}/>
-                <TextInput header={"Since"} name={"sinceDate"} placeholder={'MM-RR'}
-                           onChange={(event: ChangeEvent<HTMLInputElement>) => this.handleExperienceChange(this.props.id, "sinceDate", event.target.value)}/>
-                <TextInput header={"To (optional)"} name={"toDate"} placeholder={'MM-RR'}
-                           onChange={(event: ChangeEvent<HTMLInputElement>) => this.handleExperienceChange(this.props.id, "toDate", event.target.value)}/>
-                <Button className={"removeButton"} variant={'danger'} size={'sm'}
-                        onClick={() => this.removeExperienceInput(this.props.id)}>Remove</Button>
-            </Form.Row>
+            <div className="complexInputContainer">
+                <Form.Row>
+                    <TextInput header={"Role"} name={"role"}
+                               onChange={(event: ChangeEvent<HTMLInputElement>) => this.handleExperienceChange(this.props.id, "role", event.target.value)}/>
+                    <TextInput header={"Company"} name={"company"} mostRight={true}
+                               onChange={(event: ChangeEvent<HTMLInputElement>) => this.handleExperienceChange(this.props.id, "company", event.target.value)}/>
+                    </Form.Row>
+                <Form.Row>
+                    <TextInput header={"City"} name={"city"}
+                               onChange={(event: ChangeEvent<HTMLInputElement>) => this.handleExperienceChange(this.props.id, "city", event.target.value)}/>
+                    <TextInput header={"Country"} name={"country"}
+                               onChange={(event: ChangeEvent<HTMLInputElement>) => this.handleExperienceChange(this.props.id, "country", event.target.value)}/>
+                    <TextInput header={"Since"} name={"sinceDate"} placeholder={'MM-RR'}
+                               onChange={(event: ChangeEvent<HTMLInputElement>) => this.handleExperienceChange(this.props.id, "sinceDate", event.target.value)}/>
+                    <TextInput header={"To (optional)"} name={"toDate"} placeholder={'MM-RR'}
+                               onChange={(event: ChangeEvent<HTMLInputElement>) => this.handleExperienceChange(this.props.id, "toDate", event.target.value)}/>
+                    <Button className={"removeButton"} variant={'danger'} size={'sm'}
+                            onClick={() => this.removeExperienceInput(this.props.id)}>Remove</Button>
+                </Form.Row>
+            </div>
         );
     }
 

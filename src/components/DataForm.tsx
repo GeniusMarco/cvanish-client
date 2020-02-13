@@ -8,6 +8,7 @@ import {Button, Card, Form} from "react-bootstrap";
 import TextAreaInput from "./inputs/TextAreaInput";
 import Education from "../model/Education";
 import EducationInput from "./inputs/EducationInput";
+import LinkInput from "./inputs/LinkInput";
 
 interface IProps {
     experiences: Map<number, Experience>,
@@ -15,7 +16,9 @@ interface IProps {
     educations: Map<number, Education>,
     setEducations: (educations: Map<number, Education>) => void,
     summaryVisible: boolean,
-    skillsVisible: boolean
+    skillsVisible: boolean,
+    links: Map<number, string>,
+    setLinks: (links: Map<number, string>) => void
 }
 
 interface IState {
@@ -44,6 +47,10 @@ class DataForm extends Component<IProps, IState> {
             educationInputs.push(<EducationInput id={key} key={key} educations={this.props.educations}
                                                  setEducations={this.props.setEducations}/>)
         }
+        const linkInputs = [];
+        for (const key of Array.from(this.props.links.keys())) {
+            linkInputs.push(<LinkInput id={key} key={key} links={this.props.links} setLinks={this.props.setLinks}/>)
+        }
 
         return (
             <div>
@@ -64,23 +71,23 @@ class DataForm extends Component<IProps, IState> {
                     {this.props.summaryVisible ?
                         <Card border={"secondary"} className={"section"}>
                             <Card.Header><h5>Summary</h5></Card.Header>
-                            <Card.Body>
+                            <Card.Body className="textAreaCardBody">
                                 <TextAreaInput name={"summary"} onChange={this.handleTextAreaChange}/>
                             </Card.Body>
                         </Card> :
                         null}
-                    {experienceInputs.length == 0 ? null :
+                    {experienceInputs.length === 0 ? null :
                         <Card border={"secondary"} className={"section"}>
                             <Card.Header><h5>Experience</h5></Card.Header>
-                            <Card.Body>
+                            <Card.Body className="complexInputCardBody">
                                 {experienceInputs}
                             </Card.Body>
                         </Card>
                     }
-                    {educationInputs.length == 0 ? null :
+                    {educationInputs.length === 0 ? null :
                         <Card border={"secondary"} className={"section"}>
                             <Card.Header><h5>Education</h5></Card.Header>
-                            <Card.Body>
+                            <Card.Body className="complexInputCardBody">
                                 {educationInputs}
                             </Card.Body>
                         </Card>
@@ -88,11 +95,19 @@ class DataForm extends Component<IProps, IState> {
                     {this.props.skillsVisible ?
                         <Card border={"secondary"} className={"section"}>
                             <Card.Header><h5>Skills</h5></Card.Header>
-                            <Card.Body>
+                            <Card.Body className="textAreaCardBody">
                                 <TextAreaInput name={"skills"} onChange={this.handleTextAreaChange}/>
                             </Card.Body>
                         </Card> :
                         null}
+                    {linkInputs.length === 0 ? null :
+                        <Card border={"secondary"} className={"section"}>
+                            <Card.Header><h5>Links</h5></Card.Header>
+                            <Card.Body>
+                                {linkInputs}
+                            </Card.Body>
+                        </Card>
+                    }
                     <Button className={'submitButton'} type={'submit'} block={true} variant={'secondary'}>Download CV</Button>
                 </Form>
             </div>
@@ -125,6 +140,11 @@ class DataForm extends Component<IProps, IState> {
         for (const [, education] of this.props.educations.entries()) {
             educationsArray.push(education);
         }
+        let linksArray: string[] = [];
+        // @ts-ignore
+        for (const [, link] of this.props.links.entries()) {
+            linksArray.push(link);
+        }
         const data = {
             firstName: this.state.firstName,
             lastName: this.state.lastName,
@@ -133,7 +153,8 @@ class DataForm extends Component<IProps, IState> {
             summary: this.state.summary,
             experiences: experiencesArray,
             educations: educationsArray,
-            skills: this.state.skills
+            skills: this.state.skills,
+            links: linksArray
         };
         console.log('Submitting form, data:\n' + JSON.stringify(data));
         fetch("/api/data", {

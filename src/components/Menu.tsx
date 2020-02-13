@@ -10,10 +10,12 @@ interface IProps {
     educations: Map<number, Education>,
     summaryVisible: boolean,
     skillsVisible: boolean,
+    links: Map<number, string>,
     setExperiences: (experiences: Map<number, Experience>) => void,
     setEducations: (educations: Map<number, Education>) => void,
     setSummaryVisible: (summaryVisible: boolean) => void,
-    setSkillsVisible: (skillsVisible: boolean) => void
+    setSkillsVisible: (skillsVisible: boolean) => void,
+    setLinks: (links: Map<number, string>) => void
 }
 
 class Menu extends Component<IProps> {
@@ -45,6 +47,11 @@ class Menu extends Component<IProps> {
                             <ToggleButton className="toggleButton menuButton" variant={'secondary'} value={'skills'}
                                           onChange={this.toggleSkills}>Skills</ToggleButton>
                         </ToggleButtonGroup>
+                    </Nav.Item>
+                    <Nav.Item className="menuButtonContainer">
+                        <ButtonGroup className="menuButtonGroup">
+                            <Button className="menuButton" variant={'secondary'} onClick={this.addLinkInput}>Add link</Button>
+                        </ButtonGroup>
                     </Nav.Item>
                 </div>
             </Nav>
@@ -80,6 +87,17 @@ class Menu extends Component<IProps> {
     toggleSkills = () => {
         this.props.setSkillsVisible(!this.props.skillsVisible);
     };
+
+    addLinkInput = () => {
+        let key: number = this.props.links.size;
+        for (let i = 0; i < this.props.links.size; i++) {
+            if (!this.props.links.has(i)) {
+                key = i;
+                break;
+            }
+        }
+        this.props.setLinks(new Map<number, string>(this.props.links).set(key, ""));
+    }
 }
 
 export default Menu;

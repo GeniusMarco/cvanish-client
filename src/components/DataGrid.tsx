@@ -11,6 +11,8 @@ interface IProps {
     setEducations: (educations: Map<number, Education>) => void,
     summaryVisible: boolean,
     skillsVisible: boolean,
+    links: Map<number, string>,
+    setLinks: (links: Map<number, string>) => void
 }
 
 class DataGrid extends Component<IProps> {
@@ -25,6 +27,8 @@ class DataGrid extends Component<IProps> {
                                   setEducations={this.props.setEducations}
                                   summaryVisible={this.props.summaryVisible}
                                   skillsVisible={this.props.skillsVisible}
+                                  links={this.props.links}
+                                  setLinks={this.props.setLinks}
                         />
                     </Col>
                 </Row>

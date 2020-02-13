@@ -13,24 +13,28 @@ interface IProps {
 class EducationInput extends Component<IProps> {
     render() {
         return (
-            <Form.Row>
-                <TextInput header={"Field of study"} name={"fieldOfStudy"}
-                           onChange={(event: ChangeEvent<HTMLInputElement>) => this.handleEducationChange(this.props.id, "fieldOfStudy", event.target.value)}/>
-                <TextInput header={"Level"} name={"level"}
-                           onChange={(event: ChangeEvent<HTMLInputElement>) => this.handleEducationChange(this.props.id, "level", event.target.value)}/>
-                <TextInput header={"University"} name={"university"}
-                           onChange={(event: ChangeEvent<HTMLInputElement>) => this.handleEducationChange(this.props.id, "university", event.target.value)}/>
-                <TextInput header={"City"} name={"city"}
-                           onChange={(event: ChangeEvent<HTMLInputElement>) => this.handleEducationChange(this.props.id, "city", event.target.value)}/>
-                <TextInput header={"Country"} name={"country"}
-                           onChange={(event: ChangeEvent<HTMLInputElement>) => this.handleEducationChange(this.props.id, "country", event.target.value)}/>
-                <TextInput header={"Since"} name={"sinceDate"} placeholder={'MM-RR'}
-                           onChange={(event: ChangeEvent<HTMLInputElement>) => this.handleEducationChange(this.props.id, "sinceDate", event.target.value)}/>
-                <TextInput header={"To (optional)"} name={"toDate"} placeholder={'MM-RR'}
-                           onChange={(event: ChangeEvent<HTMLInputElement>) => this.handleEducationChange(this.props.id, "toDate", event.target.value)}/>
-                <Button className={"removeButton"} variant={'danger'} size={'sm'}
-                        onClick={() => this.removeEducationInput(this.props.id)}>Remove</Button>
-            </Form.Row>
+            <div className="complexInputContainer">
+                <Form.Row>
+                    <TextInput header={"Field of study"} name={"fieldOfStudy"}
+                               onChange={(event: ChangeEvent<HTMLInputElement>) => this.handleEducationChange(this.props.id, "fieldOfStudy", event.target.value)}/>
+                    <TextInput header={"Level"} name={"level"}
+                               onChange={(event: ChangeEvent<HTMLInputElement>) => this.handleEducationChange(this.props.id, "level", event.target.value)}/>
+                    <TextInput header={"University"} name={"university"} mostRight={true}
+                               onChange={(event: ChangeEvent<HTMLInputElement>) => this.handleEducationChange(this.props.id, "university", event.target.value)}/>
+                </Form.Row>
+                <Form.Row>
+                    <TextInput header={"City"} name={"city"}
+                               onChange={(event: ChangeEvent<HTMLInputElement>) => this.handleEducationChange(this.props.id, "city", event.target.value)}/>
+                    <TextInput header={"Country"} name={"country"}
+                               onChange={(event: ChangeEvent<HTMLInputElement>) => this.handleEducationChange(this.props.id, "country", event.target.value)}/>
+                    <TextInput header={"Since"} name={"sinceDate"} placeholder={'MM-RR'}
+                               onChange={(event: ChangeEvent<HTMLInputElement>) => this.handleEducationChange(this.props.id, "sinceDate", event.target.value)}/>
+                    <TextInput header={"To (optional)"} name={"toDate"} placeholder={'MM-RR'}
+                               onChange={(event: ChangeEvent<HTMLInputElement>) => this.handleEducationChange(this.props.id, "toDate", event.target.value)}/>
+                    <Button className={"removeButton"} variant={'danger'} size={'sm'}
+                            onClick={() => this.removeEducationInput(this.props.id)}>Remove</Button>
+                </Form.Row>
+            </div>
         );
     }
 
