@@ -9,11 +9,16 @@ import TextAreaInput from "./inputs/TextAreaInput";
 import Education from "../model/Education";
 import EducationInput from "./inputs/EducationInput";
 import LinkInput from "./inputs/LinkInput";
+import Project from "../model/Project";
+import ProjectInput from "./inputs/ProjectInput";
+import ProjectLink from "../model/ProjectLink";
 
 interface IProps {
     summaryVisible: boolean,
     experienceVisible: boolean,
     toggleExperienceVisible: () => void,
+    projectsVisible: boolean,
+    toggleProjectsVisible: () => void,
     educationVisible: boolean,
     toggleEducationVisible: () => void,
     skillsVisible: boolean,
@@ -28,6 +33,7 @@ interface IState {
     email: string,
     summary: string,
     experiences: Map<number, Experience>,
+    projects: Map<number, Project>,
     educations: Map<number, Education>,
     skills: string,
     links: Map<number, string>,
@@ -44,6 +50,7 @@ class DataForm extends Component<IProps, IState> {
             email: '',
             summary: '',
             experiences: new Map<number, Experience>(),
+            projects: new Map<number, Project>(),
             educations: new Map<number, Education>(),
             skills: '',
             links: new Map<number, string>(),
@@ -60,6 +67,14 @@ class DataForm extends Component<IProps, IState> {
             experienceInputs.push(<ExperienceInput id={key} key={key} experiences={this.state.experiences}
                                                    setExperiences={this.setExperiences}
                                                    toggleExperienceVisible={this.props.toggleExperienceVisible}/>)
+        }
+        if (this.props.projectsVisible && this.state.projects.size === 0) {
+            this.addProjectInput();
+        }
+        const projectInputs = [];
+        for (const key of Array.from(this.state.projects.keys())) {
+            projectInputs.push(<ProjectInput id={key} key={key} projects={this.state.projects} setProjects={this.setProjects}
+                                             toggleProjectsVisible={this.props.toggleProjectsVisible}/>)
         }
         if (this.props.educationVisible && this.state.educations.size === 0) {
             this.addEducationInput();
@@ -107,8 +122,8 @@ class DataForm extends Component<IProps, IState> {
                         <Card border={"secondary"} className={"section"}>
                             <Card.Header>
                                 <h5>
-                                    Experience <Button variant={"success"} size={"sm"}
-                                                       onClick={this.addExperienceInput}>Add</Button>
+                                    Experience <Button className="addButton" variant={"success"} size={"sm"}
+                                                       onClick={this.addExperienceInput}>Add experience</Button>
                                 </h5>
                             </Card.Header>
                             <Card.Body className="complexInputCardBody">
@@ -116,12 +131,25 @@ class DataForm extends Component<IProps, IState> {
                             </Card.Body>
                         </Card> :
                         null}
+                    {this.props.projectsVisible ?
+                        <Card border={"secondary"} className={"section"}>
+                            <Card.Header>
+                                <h5>
+                                    Projects <Button className="addButton" variant={"success"} size={"sm"}
+                                                       onClick={this.addProjectInput}>Add project</Button>
+                                </h5>
+                            </Card.Header>
+                            <Card.Body className="complexInputCardBody">
+                                {projectInputs}
+                            </Card.Body>
+                        </Card> :
+                        null}
                     {this.props.educationVisible ?
                         <Card border={"secondary"} className={"section"}>
                             <Card.Header>
                                 <h5>
-                                    Education <Button variant={"success"} size={"sm"}
-                                                      onClick={this.addEducationInput}>Add</Button>
+                                    Education <Button className="addButton" variant={"success"} size={"sm"}
+                                                      onClick={this.addEducationInput}>Add education</Button>
                                 </h5>
                             </Card.Header>
                             <Card.Body className="complexInputCardBody">
@@ -142,8 +170,8 @@ class DataForm extends Component<IProps, IState> {
                         <Card border={"secondary"} className={"section"}>
                             <Card.Header>
                                 <h5>
-                                    Links <Button variant={"success"} size={"sm"}
-                                                  onClick={this.addLinkInput}>Add</Button>
+                                    Links <Button className="addButton" variant={"success"} size={"sm"}
+                                                  onClick={this.addLinkInput}>Add link</Button>
                                 </h5>
                             </Card.Header>
                             <Card.Body>
@@ -171,6 +199,17 @@ class DataForm extends Component<IProps, IState> {
         this.setExperiences(new Map<number, Experience>(this.state.experiences).set(key, new Experience()));
     };
 
+    addProjectInput = () => {
+        let key: number = this.state.projects.size;
+        for (let i = 0; i < this.state.projects.size; i++) {
+            if (!this.state.projects.has(i)) {
+                key = i;
+                break;
+            }
+        }
+        this.setProjects(new Map<number, Project>(this.state.projects).set(key, new Project()));
+    };
+
     addEducationInput = () => {
         let key: number = this.state.educations.size;
         for (let i = 0; i < this.state.educations.size; i++) {
@@ -191,11 +230,24 @@ class DataForm extends Component<IProps, IState> {
             }
         }
         this.setLinks(new Map<number, string>(this.state.links).set(key, ""));
-    }
+    };
 
     setExperiences = (experiences: Map<number, Experience>) => {
         this.setState({
             experiences: experiences
+        })
+    };
+
+    setProjects = (projects: Map<number, Project>) => {
+        this.setState({
+            projects: projects
+        }, () => {
+            console.log(this.state.projects.get(0));
+            // @ts-ignore
+            if (this.state.projects.get(0).links.size!==0){
+                // @ts-ignore
+                console.log("LINK0: " + this.state.projects.get(0).links.get(0).header)
+            }
         })
     };
 
@@ -252,6 +304,7 @@ class DataForm extends Component<IProps, IState> {
             email: this.state.email,
             summary: this.state.summary,
             experiences: experiencesArray,
+            projects: Array.from(this.state.projects),
             educations: educationsArray,
             skills: this.state.skills,
             links: linksArray

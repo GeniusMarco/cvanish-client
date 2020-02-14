@@ -3,8 +3,8 @@ class Experience {
     company: string;
     city: string;
     country: string;
-    sinceDate: Date;
-    toDate: Date;
+    sinceDate: string;
+    toDate: string;
 
 
     constructor() {
@@ -12,8 +12,8 @@ class Experience {
         this.company = "";
         this.city = "";
         this.country = "";
-        this.sinceDate = new Date();
-        this.toDate = new Date();
+        this.sinceDate = "";
+        this.toDate = "";
     }
 }
 

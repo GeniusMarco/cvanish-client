@@ -4,9 +4,8 @@ class Education {
     university: string;
     city: string;
     country: string;
-    sinceDate: Date;
-    toDate: Date;
-
+    sinceDate: string;
+    toDate: string;
 
     constructor() {
         this.fieldOfStudy = "";
@@ -14,8 +13,8 @@ class Education {
         this.university = "";
         this.city = "";
         this.country = "";
-        this.sinceDate = new Date();
-        this.toDate = new Date();
+        this.sinceDate = "";
+        this.toDate = "";
     }
 }
 

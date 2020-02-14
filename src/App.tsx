@@ -7,6 +7,7 @@ import DataForm from "./components/DataForm";
 interface IState {
     summaryVisible: boolean,
     experienceVisible: boolean,
+    projectsVisible: boolean,
     educationVisible: boolean,
     skillsVisible: boolean,
     linksVisible: boolean
@@ -15,8 +16,14 @@ interface IState {
 class App extends Component<any, IState> {
     constructor(props: any) {
         super(props);
-        this.state = {summaryVisible: false, experienceVisible: false, educationVisible: false, skillsVisible: false,
-            linksVisible: false}
+        this.state = {
+            summaryVisible: false,
+            experienceVisible: false,
+            projectsVisible: false,
+            educationVisible: false,
+            skillsVisible: false,
+            linksVisible: false
+        }
     }
 
     render() {
@@ -27,11 +34,13 @@ class App extends Component<any, IState> {
                     </Col>
                     <Menu summaryVisible={this.state.summaryVisible}
                           experienceVisible={this.state.experienceVisible}
+                          projectsVisible={this.state.projectsVisible}
                           educationVisible={this.state.educationVisible}
                           skillsVisible={this.state.skillsVisible}
                           linksVisible={this.state.linksVisible}
                           toggleSummaryVisible={this.toggleSummaryVisible}
                           toggleExperienceVisible={this.toggleExperienceVisible}
+                          toggleProjectsVisible={this.toggleProjectsVisible}
                           toggleEducationVisible={this.toggleEducationVisible}
                           toggleSkillsVisible={this.toggleSkillsVisible}
                           toggleLinksVisible={this.toggleLinksVisible}
@@ -41,6 +50,8 @@ class App extends Component<any, IState> {
                             summaryVisible={this.state.summaryVisible}
                             experienceVisible={this.state.experienceVisible}
                             toggleExperienceVisible={this.toggleExperienceVisible}
+                            projectsVisible={this.state.projectsVisible}
+                            toggleProjectsVisible={this.toggleProjectsVisible}
                             educationVisible={this.state.educationVisible}
                             toggleEducationVisible={this.toggleEducationVisible}
                             skillsVisible={this.state.skillsVisible}
@@ -65,6 +76,12 @@ class App extends Component<any, IState> {
         })
     };
 
+    toggleProjectsVisible = () => {
+        this.setState({
+            projectsVisible: !this.state.projectsVisible
+        })
+    };
+
     toggleEducationVisible = () => {
         this.setState({
             educationVisible: !this.state.educationVisible
@@ -82,24 +99,6 @@ class App extends Component<any, IState> {
             linksVisible: !this.state.linksVisible
         })
     };
-
-    /*setExperiences = (experiences: Map<number, Experience>) => {
-        this.setState({
-            experiences: experiences
-        })
-    };
-
-    setEducations = (educations: Map<number, Education>) => {
-        this.setState({
-            educations: educations
-        })
-    };
-
-    setLinks = (links: Map<number, string>) => {
-        this.setState({
-            links: links
-        })
-    }*/
 }
 
 export default App;

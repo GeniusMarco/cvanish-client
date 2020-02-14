@@ -6,11 +6,13 @@ import Logo from "./Logo";
 interface IProps {
     summaryVisible: boolean,
     experienceVisible: boolean,
+    projectsVisible: boolean,
     educationVisible: boolean,
     skillsVisible: boolean,
     linksVisible: boolean,
     toggleSummaryVisible: () => void,
     toggleExperienceVisible: () => void,
+    toggleProjectsVisible: () => void,
     toggleEducationVisible: () => void,
     toggleSkillsVisible: () => void,
     toggleLinksVisible: () => void
@@ -18,7 +20,6 @@ interface IProps {
 
 class Menu extends Component<IProps> {
     render() {
-        console.log("menuExVis " + this.props.experienceVisible);
         return (
             <Nav className="sidebar">
                 <div className="sidebar-sticky">
@@ -35,6 +36,12 @@ class Menu extends Component<IProps> {
                         <ToggleButtonGroup className="menuButtonGroup" type="checkbox">
                             <ToggleButton className={this.props.experienceVisible ? "activeMenuButton" : "menuButton"} variant={'secondary'} value={'experience'}
                                           onChange={this.props.toggleExperienceVisible}>Experience</ToggleButton>
+                        </ToggleButtonGroup>
+                    </Nav.Item>
+                    <Nav.Item className="menuButtonContainer">
+                        <ToggleButtonGroup className="menuButtonGroup" type="checkbox">
+                            <ToggleButton className={this.props.projectsVisible ? "activeMenuButton" : "menuButton"} variant={'secondary'} value={'projects'}
+                                          onChange={this.props.toggleProjectsVisible}>Projects</ToggleButton>
                         </ToggleButtonGroup>
                     </Nav.Item>
                     <Nav.Item className="menuButtonContainer">

@@ -7,6 +7,16 @@
     margin-bottom: 18px;
 }
 
+.removeButtonHidden {
+    visibility: hidden;
+}
+
+.removeProjectButton {
+    width: 100%;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
 .row {
     margin-left: 0;
 }
@@ -17,6 +27,7 @@
 
 .textAreaGroup {
     padding-left: 5px;
+    width: 100%;
 }
 
 .card-header {
@@ -47,4 +58,16 @@
 
 .complexInputFormRow {
     margin-right: -5px;
+}
+
+.addButton {
+    margin-left: 5px;
+    width: 15%;
+    float: right;
+}
+
+.projectDescription {
+    margin-left: 5px;
+    margin-right: 5px;
+    width: 100%;
 }

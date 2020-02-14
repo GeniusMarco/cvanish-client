@@ -13,7 +13,7 @@ interface IProps {
 class LinkInput extends Component<IProps> {
     render() {
         return (
-            <div /*className="complexInputContainer"*/>
+            <div>
                 <Form.Row>
                     <TextInput name={"link"}
                                onChange={(event: ChangeEvent<HTMLInputElement>) => this.handleLinkChange(this.props.id, "link", event.target.value)}/>
