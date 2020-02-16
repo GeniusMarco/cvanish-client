@@ -3,14 +3,14 @@ import ProjectLink from "./ProjectLink";
 class Project {
     title: string;
     description: string;
-    links: Map<number, ProjectLink>;
+    links: ProjectLink[];
     sinceYear: string;
     toYear: string;
 
     constructor() {
         this.title = "";
         this.description = "";
-        this.links = new Map<number, ProjectLink>();
+        this.links = [];
         this.sinceYear = "";
         this.toYear = "";
     }

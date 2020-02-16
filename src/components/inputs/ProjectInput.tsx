@@ -15,20 +15,22 @@ interface IProps {
 }
 
 interface IState {
-    projectLinks: Map<number, ProjectLink>
+    projectLinks: ProjectLink[]
 }
 
 class ProjectInput extends Component<IProps, IState> {
     constructor(props: IProps) {
         super(props);
         this.state = {
-            projectLinks: new Map<number, ProjectLink>()
+            projectLinks: []
         }
     }
 
     render() {
         const projectLinkInputs = [];
-        for (const key of Array.from(this.state.projectLinks.keys())) {
+        // @ts-ignore
+        for (const key of this.state.projectLinks.map(l => l.id)) {
+            console.log("KEY " + key);
             projectLinkInputs.push(<ProjectLinkInput id={key} key={key} projectLinks={this.state.projectLinks}
                                                      setProjectLinks={this.setProjectLinks}/>);
         }
@@ -38,10 +40,10 @@ class ProjectInput extends Component<IProps, IState> {
                 <Form.Row>
                     <TextInput header={"Title"} name={"title"}
                                onChange={(event: ChangeEvent<HTMLInputElement>) => this.handleProjectChange(this.props.id, "title", event.target.value)}/>
-                    <TextInput header={"Since"} name={"sinceDate"} placeholder={'MM-RR'}
-                               onChange={(event: ChangeEvent<HTMLInputElement>) => this.handleProjectChange(this.props.id, "sinceDate", event.target.value)}/>
-                    <TextInput header={"To (optional)"} name={"toDate"} placeholder={'MM-RR'}
-                               onChange={(event: ChangeEvent<HTMLInputElement>) => this.handleProjectChange(this.props.id, "toDate", event.target.value)}/>
+                    <TextInput header={"Since"} name={"sinceDate"} placeholder={'RRRR'}
+                               onChange={(event: ChangeEvent<HTMLInputElement>) => this.handleProjectChange(this.props.id, "sinceYear", event.target.value)}/>
+                    <TextInput header={"To (optional)"} name={"toDate"} placeholder={'RRRR'}
+                               onChange={(event: ChangeEvent<HTMLInputElement>) => this.handleProjectChange(this.props.id, "toYear", event.target.value)}/>
                 </Form.Row>
                 <Form.Row>
                     <div className="projectDescription">
@@ -86,23 +88,25 @@ class ProjectInput extends Component<IProps, IState> {
     };
 
     addProjectLinkInput = () => {
-        let key: number = this.state.projectLinks.size;
-        for (let i = 0; i < this.state.projectLinks.size; i++) {
-            if (!this.state.projectLinks.has(i)) {
+        let key: number = this.state.projectLinks.length;
+        for (let i = 0; i < this.state.projectLinks.length; i++) {
+            // if (!this.state.projectLinks.has(i)) {
+            if (!this.state.projectLinks.map(x => x.id).includes(i)) {
                 key = i;
                 break;
             }
         }
-        this.setProjectLinks(new Map<number, ProjectLink>(this.state.projectLinks).set(key, new ProjectLink()));
+        let copy: ProjectLink[] = this.state.projectLinks.slice();
+        copy.push(new ProjectLink(key));
+        this.setProjectLinks(copy);
     };
 
-    setProjectLinks = (projectLinks: Map<number, ProjectLink>) => {
-        console.log("setProjectLinks called");
+    setProjectLinks = (projectLinks: ProjectLink[]) => {
+        console.log("setProjectLinks argument: " + projectLinks.toString());
+        console.log("setProjectLinks state: " + this.state.projectLinks.toString());
         this.setState({
             projectLinks: projectLinks
-        },  () => {
-            // @ts-ignore
-            console.log("state" + this.state.projectLinks.get(0).header)});
+        });
         // @ts-ignore
         let project: Project = this.props.projects.get(this.props.id);
         project.links = projectLinks;

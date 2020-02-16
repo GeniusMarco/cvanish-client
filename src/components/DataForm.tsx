@@ -180,7 +180,8 @@ class DataForm extends Component<IProps, IState> {
                         </Card> :
                         null
                     }
-                    <Button disabled={this.state.downloading} className={'submitButton'} type={'submit'} block={true} variant={'secondary'}>
+                    <Button disabled={this.state.downloading} className={'submitButton'} type={'submit'} block={true} size={"lg"}
+                            variant={'secondary'}>
                         {this.state.downloading ? <Spinner animation="grow" size="sm"/> : "Download CV"}
                     </Button>
                 </Form>
@@ -241,13 +242,6 @@ class DataForm extends Component<IProps, IState> {
     setProjects = (projects: Map<number, Project>) => {
         this.setState({
             projects: projects
-        }, () => {
-            console.log(this.state.projects.get(0));
-            // @ts-ignore
-            if (this.state.projects.get(0).links.size!==0){
-                // @ts-ignore
-                console.log("LINK0: " + this.state.projects.get(0).links.get(0).header)
-            }
         })
     };
 
@@ -287,6 +281,16 @@ class DataForm extends Component<IProps, IState> {
         for (const [, experience] of this.state.experiences.entries()) {
             experiencesArray.push(experience);
         }
+        // @ts-ignore
+        for (const [, project] of this.state.projects.entries()) {
+            let obj: Object = Object.fromEntries(project.links);
+            project.linksArray = obj;
+        }
+        let projectsArray: Project[] = [];
+        // @ts-ignore
+        for (const [, project] of this.state.projects.entries()) {
+            projectsArray.push(project);
+        }
         let educationsArray: Education[] = [];
         // @ts-ignore
         for (const [, education] of this.state.educations.entries()) {
@@ -297,6 +301,7 @@ class DataForm extends Component<IProps, IState> {
         for (const [, link] of this.state.links.entries()) {
             linksArray.push(link);
         }
+
         const data = {
             firstName: this.state.firstName,
             lastName: this.state.lastName,
@@ -304,7 +309,7 @@ class DataForm extends Component<IProps, IState> {
             email: this.state.email,
             summary: this.state.summary,
             experiences: experiencesArray,
-            projects: Array.from(this.state.projects),
+            projects: projectsArray,
             educations: educationsArray,
             skills: this.state.skills,
             links: linksArray
