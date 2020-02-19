@@ -14,7 +14,7 @@ class ProjectLinkInput extends Component<IProps> {
     render() {
         return (
             <Form.Row>
-                <TextInput header={"Resource name"} name={"header"}
+                <TextInput header={"Resource name (optional)"} name={"header"}
                            onChange={(event: ChangeEvent<HTMLInputElement>) => this.handleHeaderChange(this.props.id, event.target.value)}/>
                 <TextInput header={"Link"} name={"link"}
                            onChange={(event: ChangeEvent<HTMLInputElement>) => this.handleUrlChange(this.props.id, event.target.value)}/>
@@ -55,10 +55,6 @@ class ProjectLinkInput extends Component<IProps> {
 
     removeProjectLinkInput = (id: number) => {
         let copy = this.props.projectLinks.slice();
-        let s: string = "";
-        for (let pl of copy) {
-            s+=pl.id + " " + pl.name + "\n";
-        }
         // @ts-ignore
         copy.splice(copy.indexOf(copy.find(l => l.id === id)), 1);
         this.props.setProjectLinks(copy);
