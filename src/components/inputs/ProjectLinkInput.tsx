@@ -59,14 +59,8 @@ class ProjectLinkInput extends Component<IProps> {
         for (let pl of copy) {
             s+=pl.id + " " + pl.name + "\n";
         }
-        console.log(s);
         // @ts-ignore
         copy.splice(copy.indexOf(copy.find(l => l.id === id)), 1);
-        s="";
-        for (let pl of copy) {
-            s+=pl.id + " " + pl.name + "\n";
-        }
-        console.log(s);
         this.props.setProjectLinks(copy);
     };
 }

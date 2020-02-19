@@ -30,7 +30,6 @@ class ProjectInput extends Component<IProps, IState> {
         const projectLinkInputs = [];
         // @ts-ignore
         for (const key of this.state.projectLinks.map(l => l.id)) {
-            console.log("KEY " + key);
             projectLinkInputs.push(<ProjectLinkInput id={key} key={key} projectLinks={this.state.projectLinks}
                                                      setProjectLinks={this.setProjectLinks}/>);
         }
@@ -102,8 +101,6 @@ class ProjectInput extends Component<IProps, IState> {
     };
 
     setProjectLinks = (projectLinks: ProjectLink[]) => {
-        console.log("setProjectLinks argument: " + projectLinks.toString());
-        console.log("setProjectLinks state: " + this.state.projectLinks.toString());
         this.setState({
             projectLinks: projectLinks
         });
