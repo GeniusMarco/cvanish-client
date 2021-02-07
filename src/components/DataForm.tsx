@@ -11,7 +11,6 @@ import EducationInput from "./inputs/EducationInput";
 import LinkInput from "./inputs/LinkInput";
 import Project from "../model/Project";
 import ProjectInput from "./inputs/ProjectInput";
-import ProjectLink from "../model/ProjectLink";
 
 interface IProps {
     summaryVisible: boolean,
@@ -315,7 +314,7 @@ class DataForm extends Component<IProps, IState> {
             links: linksArray
         };
         console.log('Submitting form, data:\n' + JSON.stringify(data));
-        fetch("/api/data", {
+        fetch("/generate", {
             method: 'POST',
             body: JSON.stringify(data),
             headers:{'Content-Type':'application/json'}
